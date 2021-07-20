@@ -26,6 +26,8 @@ LDFLAGS := $(DEBUG) -L. -L$(PREFIX)/lib
 LDLIBS := -lpvocf -lm
 
 PVOCTOOL_SRC := pvoctool.c
+PVOCTOOL_SRC += pvoctool_get_data.c
+PVOCTOOL_SRC += pvoctool_info.c
 PVOCTOOL_OBJ := $(PVOCTOOL_SRC:%.c=%.o)
 PVOCTOOL_DEP := $(PVOCTOOL_SRC:%.c=%.d)
 OBJ := $(PVOCTOOL_OBJ)

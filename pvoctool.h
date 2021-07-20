@@ -8,10 +8,10 @@
 #ifndef   PVOCTOOL_H_
 #define   PVOCTOOL_H_
 
+#include <pvocf.h>
+
 struct info {
     int verbose;
-    int frame_count;
-    int bin_count;
 };
 
 struct pvoc_channel {
@@ -31,20 +31,14 @@ struct pvoctool_data {
 
 
 extern int pvoctool_get_data(
-    const char *filename,
+    struct pvocf *handle,
     struct pvoctool_data **data);
+
 extern int pvoctool_free_data(struct pvoctool_data *data);
 
-extern int pvoctool_octave_specgram(
-    const struct info *info,
-    const struct pvoctool_data *data,
+extern int pvoctool_info(
     int argc,
-    const char *argv[]);
-
-extern int pvoctool_gnuplot(
-    const struct info *info,
-    const struct pvoctool_data *data,
-    int argc,
-    const char *argv[]);
+    char *argv[],
+    const struct info *info);
 
 #endif /* PVOCTOOL_H_ */
