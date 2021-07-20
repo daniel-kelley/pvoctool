@@ -30,7 +30,6 @@ jobs:
     - name: make check
       run: |
         make clean
-        make libs
         make SANITIZE=address check
     - name: make check clang
       run: |

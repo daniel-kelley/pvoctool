@@ -54,7 +54,7 @@ chirp.pvx: chirp.wav
 	csound -U pvanal -n 4096 -h 1024 $< $@
 
 check: $(PROG) chirp.pvx
-	./$+
+	./$(PROG) info chirp.pvx
 
 clean:
 	-rm -f $(PROG)	$(OBJ) $(DEP) \
