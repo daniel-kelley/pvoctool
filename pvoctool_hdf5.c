@@ -1,15 +1,15 @@
 /*
-   pvoctool_info.c
+   pvoctool_hdf5.c
 
    Copyright (c) 2021 by Daniel Kelley
 
-   Show PVOC basic info
+   Convert PVOC data to hdf5 file
 */
 
 #include <stdio.h>
 #include "pvoctool.h"
 
-int pvoctool_info(int argc, char *argv[], const struct info *info)
+int pvoctool_hdf5(int argc, char *argv[], const struct info *info)
 {
     int err = 1;
     struct pvocf *handle;
