@@ -23,7 +23,7 @@ WARN += -Werror
 CFLAGS := $(WARN) $(DEBUG) -fPIC
 
 LDFLAGS := $(DEBUG) -L. -L$(PREFIX)/lib
-LDLIBS := -lpvocf -lm
+LDLIBS := -lpvocf -lriffr -lm
 
 PVOCTOOL_SRC := pvoctool.c
 PVOCTOOL_SRC += pvoctool_get_data.c
