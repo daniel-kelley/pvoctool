@@ -19,7 +19,7 @@ static struct {
     int (*func)(int argc, char *argv[], const struct info *info);
 } cmd[] = {
     {"info", pvoctool_info},
-    {NULL}
+    {NULL, NULL}
 };
 
 #define COUNT(a) ((int)(sizeof((a))/sizeof((a)[0])))
