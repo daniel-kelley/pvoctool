@@ -4,7 +4,9 @@
 #  Copyright (c) 2021 by Daniel Kelley
 #
 
-DEBUG ?= -g -O0
+CC = h5cc
+
+DEBUG ?= -g
 
 PREFIX ?= /usr/local
 
