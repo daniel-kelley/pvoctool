@@ -19,12 +19,14 @@ int pvoctool_info(int argc, char *argv[], const struct info *info)
     (void)info;
     do {
         if (argc != 1) {
+            fprintf(stderr, "usage: ...\n");
             break;
         }
         file = argv[0];
         handle = pvocf_open(file);
 
         if (!handle) {
+            fprintf(stderr, "could not open %s\n", file);
             break;
         }
 

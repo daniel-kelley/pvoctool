@@ -23,7 +23,7 @@ WARN += -Werror
 CFLAGS := $(WARN) $(DEBUG) -fPIC
 
 LDFLAGS := $(DEBUG) -L. -L$(PREFIX)/lib
-LDLIBS := -lpvocf -lriffr -lm
+LDLIBS := -lpvocf -lriffr -lm -lhdf5 -lhdf5_hl
 
 PVOCTOOL_SRC := pvoctool.c
 PVOCTOOL_SRC += pvoctool_get_data.c
@@ -40,7 +40,7 @@ PROG := pvoctool
 
 all: $(PROG)
 
-pvoctool: $(PVOCTOOL_SRC)
+pvoctool: $(PVOCTOOL_OBJ)
 
 install: $(PROG)
 	install -p -m 755 $(PROG) $(PREFIX)/bin
@@ -56,10 +56,10 @@ chirp.pvx: chirp.wav
 
 check: $(PROG) chirp.pvx
 	./$(PROG) info chirp.pvx
-
+	./$(PROG) hdf5 chirp.pvx chirp.h5
+	h5dump chirp.h5 > chirp.h5.txt
 clean:
 	-rm -f $(PROG)	$(OBJ) $(DEP) \
-		chirp.wav chirp.pvx
-
+		chirp.wav chirp.pvx chirp.h5 chirp.h5.txt
 
 -include $(DEP)

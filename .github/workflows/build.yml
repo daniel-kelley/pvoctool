@@ -19,6 +19,7 @@ jobs:
         sudo apt-get install csound-utils
         sudo apt-get install clang-tools
         sudo apt-get install libhdf5-dev
+        sudo apt-get install hdf5-tools
         git clone https://github.com/daniel-kelley/libriffr
         make -C libriffr
         sudo make -C libriffr install
