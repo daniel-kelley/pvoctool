@@ -19,7 +19,7 @@ static struct {
     int (*func)(int argc, char *argv[], const struct info *info);
 } cmd[] = {
     {"info", pvoctool_info},
-    {NULL, NULL}
+    {"hdf5", pvoctool_hdf5},
 };
 
 #define COUNT(a) ((int)(sizeof((a))/sizeof((a)[0])))
@@ -37,7 +37,7 @@ static int run_command(int argc, char *argv[], const struct info *info)
     int err = 1;
     for (i=0; i<COUNT(cmd); i++) {
         if (!strcmp(argv[0], cmd[i].name)) {
-            err = cmd->func(argc-1,argv+1, info);
+            err = cmd[i].func(argc-1,argv+1, info);
             break;
         }
     }

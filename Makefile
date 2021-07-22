@@ -4,7 +4,9 @@
 #  Copyright (c) 2021 by Daniel Kelley
 #
 
-DEBUG ?= -g -O0
+CC = h5cc
+
+DEBUG ?= -g
 
 PREFIX ?= /usr/local
 
@@ -23,11 +25,12 @@ WARN += -Werror
 CFLAGS := $(WARN) $(DEBUG) -fPIC
 
 LDFLAGS := $(DEBUG) -L. -L$(PREFIX)/lib
-LDLIBS := -lpvocf -lriffr -lm
+LDLIBS := -lpvocf -lriffr -lhdf5_hl -lhdf5 -lm
 
 PVOCTOOL_SRC := pvoctool.c
 PVOCTOOL_SRC += pvoctool_get_data.c
 PVOCTOOL_SRC += pvoctool_info.c
+PVOCTOOL_SRC += pvoctool_hdf5.c
 PVOCTOOL_OBJ := $(PVOCTOOL_SRC:%.c=%.o)
 PVOCTOOL_DEP := $(PVOCTOOL_SRC:%.c=%.d)
 OBJ := $(PVOCTOOL_OBJ)
@@ -39,7 +42,7 @@ PROG := pvoctool
 
 all: $(PROG)
 
-pvoctool: $(PVOCTOOL_SRC)
+pvoctool: $(PVOCTOOL_OBJ)
 
 install: $(PROG)
 	install -p -m 755 $(PROG) $(PREFIX)/bin
@@ -55,10 +58,10 @@ chirp.pvx: chirp.wav
 
 check: $(PROG) chirp.pvx
 	./$(PROG) info chirp.pvx
-
+	./$(PROG) hdf5 chirp.pvx chirp.h5
+	h5dump chirp.h5 > chirp.h5.txt
 clean:
 	-rm -f $(PROG)	$(OBJ) $(DEP) \
-		chirp.wav chirp.pvx
-
+		chirp.wav chirp.pvx chirp.h5 chirp.h5.txt
 
 -include $(DEP)

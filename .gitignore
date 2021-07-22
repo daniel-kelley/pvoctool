@@ -3,3 +3,7 @@
 *.a
 *.so
 pvoctool
+chirp.h5
+chirp.h5.txt
+chirp.pvx
+chirp.wav
