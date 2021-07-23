@@ -90,8 +90,8 @@ static int pvoctool_hdf5_create(const char *file,
                                 "bin_freq",
                                 1,
                                 dim,
-                                H5T_NATIVE_INT,
-                                &data->bin_freq);
+                                H5T_NATIVE_FLOAT,
+                                data->bin_freq);
 
         if (herr < 0) {
             break;
@@ -102,8 +102,8 @@ static int pvoctool_hdf5_create(const char *file,
                                 "frame_time",
                                 1,
                                 dim,
-                                H5T_NATIVE_INT,
-                                &data->frame_time);
+                                H5T_NATIVE_FLOAT,
+                                data->frame_time);
 
         if (herr < 0) {
             break;
@@ -116,7 +116,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 2,
                                 dim,
                                 H5T_NATIVE_FLOAT,
-                                &data->channel[0].freq);
+                                data->channel[0].freq);
 
         if (herr < 0) {
             break;
@@ -127,7 +127,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 2,
                                 dim,
                                 H5T_NATIVE_FLOAT,
-                                &data->channel[0].amp);
+                                data->channel[0].amp);
 
         if (herr < 0) {
             break;
