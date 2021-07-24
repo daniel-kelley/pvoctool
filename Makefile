@@ -31,6 +31,7 @@ PVOCTOOL_SRC := pvoctool.c
 PVOCTOOL_SRC += pvoctool_get_data.c
 PVOCTOOL_SRC += pvoctool_info.c
 PVOCTOOL_SRC += pvoctool_hdf5.c
+PVOCTOOL_SRC += pvoctool_dlm.c
 PVOCTOOL_OBJ := $(PVOCTOOL_SRC:%.c=%.o)
 PVOCTOOL_DEP := $(PVOCTOOL_SRC:%.c=%.d)
 OBJ := $(PVOCTOOL_OBJ)
@@ -59,9 +60,13 @@ chirp.pvx: chirp.wav
 check: $(PROG) chirp.pvx
 	./$(PROG) info chirp.pvx
 	./$(PROG) hdf5 chirp.pvx chirp.h5
+	./$(PROG) dlm chirp.pvx dlm
 	h5dump chirp.h5 > chirp.h5.txt
+	test -f dlm/amp
+
 clean:
-	-rm -f $(PROG)	$(OBJ) $(DEP) \
-		chirp.wav chirp.pvx chirp.h5 chirp.h5.txt
+	-rm -rf $(PROG)	$(OBJ) $(DEP) \
+		chirp.wav chirp.pvx chirp.h5 chirp.h5.txt \
+		dlm
 
 -include $(DEP)
