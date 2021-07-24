@@ -46,4 +46,9 @@ extern int pvoctool_hdf5(
     char *argv[],
     const struct info *info);
 
+extern int pvoctool_dlm(
+    int argc,
+    char *argv[],
+    const struct info *info);
+
 #endif /* PVOCTOOL_H_ */

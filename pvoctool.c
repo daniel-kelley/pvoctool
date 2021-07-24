@@ -20,6 +20,7 @@ static struct {
 } cmd[] = {
     {"info", pvoctool_info},
     {"hdf5", pvoctool_hdf5},
+    {"dlm",  pvoctool_dlm},
 };
 
 #define COUNT(a) ((int)(sizeof((a))/sizeof((a)[0])))
