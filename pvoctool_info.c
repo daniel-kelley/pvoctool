@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "pvoctool.h"
 
-int pvoctool_info(int argc, char *argv[], const struct info *info)
+int pvoctool_info(int argc, const char *argv[], const struct info *info)
 {
     int err = 1;
     struct pvocf *handle;
@@ -18,11 +18,12 @@ int pvoctool_info(int argc, char *argv[], const struct info *info)
 
     (void)info;
     do {
-        if (argc != 1) {
-            fprintf(stderr, "usage: ...\n");
+        if (argc != 2) {
+            fprintf(stderr, "%s: <pvoc_file>\n", argv[0]);
+            fprintf(stderr, "    Print basic header information.\n");
             break;
         }
-        file = argv[0];
+        file = argv[1];
         handle = pvocf_open(file);
 
         if (!handle) {

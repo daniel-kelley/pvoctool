@@ -38,17 +38,17 @@ extern int pvoctool_free_data(struct pvoctool_data *data);
 
 extern int pvoctool_info(
     int argc,
-    char *argv[],
+    const char *argv[],
     const struct info *info);
 
 extern int pvoctool_hdf5(
     int argc,
-    char *argv[],
+    const char *argv[],
     const struct info *info);
 
 extern int pvoctool_dlm(
     int argc,
-    char *argv[],
+    const char *argv[],
     const struct info *info);
 
 #endif /* PVOCTOOL_H_ */

@@ -185,7 +185,7 @@ static int pvoctool_dlm_create(const char *dir,
 }
 
 
-int pvoctool_dlm(int argc, char *argv[], const struct info *info)
+int pvoctool_dlm(int argc, const char *argv[], const struct info *info)
 {
     int err = 1;
     struct pvocf *handle;
@@ -195,13 +195,16 @@ int pvoctool_dlm(int argc, char *argv[], const struct info *info)
 
     (void)info;
     do {
-        if (argc != 2) {
-            fprintf(stderr, "usage: ...\n");
+        if (argc != 3) {
+            fprintf(stderr, "%s: <pvoc_file> <out_dir>\n", argv[0]);
+            fprintf(stderr,
+                    "    Convert to separate comma delimited text files\n"
+                    "    in output directory.\n");
             break;
         }
 
-        in_file = argv[0];
-        out_dir = argv[1];
+        in_file = argv[1];
+        out_dir = argv[2];
 
         handle = pvocf_open(in_file);
 
