@@ -16,7 +16,7 @@
 
 static struct {
     const char *name;
-    int (*func)(int argc, char *argv[], const struct info *info);
+    int (*func)(int argc, const char *argv[], const struct info *info);
 } cmd[] = {
     {"info", pvoctool_info},
     {"hdf5", pvoctool_hdf5},
@@ -27,20 +27,33 @@ static struct {
 
 static void usage(const char *prog)
 {
+    int i;
+    const char *argv[1];
+
     fprintf(stderr,"%s [-vh] <tool> <tool_args>\n", prog);
     fprintf(stderr,"  -h        Print this message\n");
     fprintf(stderr,"  -v        Verbose\n");
+    fprintf(stderr,"tools:\n");
+    for (i=0; i<COUNT(cmd); i++) {
+        argv[0] = cmd[i].name;
+        cmd[i].func(0, argv, NULL);
+    }
 }
 
-static int run_command(int argc, char *argv[], const struct info *info)
+static int run_command(int argc, const char *argv[], const struct info *info)
 {
     int i;
     int err = 1;
     for (i=0; i<COUNT(cmd); i++) {
         if (!strcmp(argv[0], cmd[i].name)) {
-            err = cmd[i].func(argc-1,argv+1, info);
+            err = cmd[i].func(argc, argv, info);
             break;
         }
+    }
+
+    if (i == COUNT(cmd)) {
+        assert(err);
+        fprintf(stderr, "No tool '%s'.\n", argv[0]);
     }
 
     return err;
@@ -69,7 +82,7 @@ int main(int argc, char *argv[])
     }
 
     if (optind < argc) {
-        err = run_command(argc-optind,argv+optind,&info);
+        err = run_command(argc-optind, (const char **)argv+optind,&info);
     }
 
     return err;

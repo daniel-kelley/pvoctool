@@ -31,13 +31,14 @@ static int pvoctool_hdf5_create(const char *file,
                                 const struct pvoctool_data *data)
 {
     int err = -1;
-    hid_t fid;
+    hid_t fid = -1;
     herr_t herr;
     hsize_t dim[2];
 
     do {
         fid = H5Fcreate(file, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
         if (fid < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -49,6 +50,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 &data->sample_rate);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -60,6 +62,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 &data->frame_count);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -71,6 +74,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 &data->bin_count);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -82,6 +86,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 &data->channels);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -94,6 +99,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 data->bin_freq);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -106,6 +112,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 data->frame_time);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -119,6 +126,7 @@ static int pvoctool_hdf5_create(const char *file,
                                 data->channel[0].freq);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
@@ -130,35 +138,39 @@ static int pvoctool_hdf5_create(const char *file,
                                 data->channel[0].amp);
 
         if (herr < 0) {
+            H5Eprint(H5E_DEFAULT, stderr);
             break;
         }
 
-        H5Fclose(fid);
-        (void)data;
         err = 0;
     } while (0);
+
+    if (fid >= 0) {
+        H5Fclose(fid);
+    }
 
     return err;
 }
 
 
-int pvoctool_hdf5(int argc, char *argv[], const struct info *info)
+int pvoctool_hdf5(int argc, const char *argv[], const struct info *info)
 {
     int err = 1;
-    struct pvocf *handle;
-    struct pvoctool_data *data;
+    struct pvocf *handle = NULL;
+    struct pvoctool_data *data = NULL;
     const char *in_file;
     const char *out_file;
 
     (void)info;
     do {
-        if (argc != 2) {
-            fprintf(stderr, "usage: ...\n");
+        if (argc != 3) {
+            fprintf(stderr, "%s: <pvoc_file> <hdf5_file>\n", argv[0]);
+            fprintf(stderr, "    Convert to an HDF5 format file.\n");
             break;
         }
 
-        in_file = argv[0];
-        out_file = argv[1];
+        in_file = argv[1];
+        out_file = argv[2];
 
         handle = pvocf_open(in_file);
 
@@ -176,10 +188,16 @@ int pvoctool_hdf5(int argc, char *argv[], const struct info *info)
 
         err = pvoctool_hdf5_create(out_file, data);
 
-        (void)pvoctool_free_data(data);
-
-        pvocf_close(handle);
     } while (0);
+
+    if (handle) {
+        pvocf_close(handle);
+    }
+
+    if (data) {
+        (void)pvoctool_free_data(data);
+    }
+
 
     return err;
 }
